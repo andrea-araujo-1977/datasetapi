@@ -1,0 +1,21 @@
+package dev.atilioaraujo.music.datasetapi.configuration;
+
+import dev.atilioaraujo.music.datasetapi.service.SpotifyAuthenticationService;
+import org.jspecify.annotations.NonNull;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+public class StartupActions implements CommandLineRunner {
+
+    private final SpotifyAuthenticationService spotifyAuthenticationService;
+
+    public StartupActions(SpotifyAuthenticationService spotifyAuthenticationService) {
+        this.spotifyAuthenticationService = spotifyAuthenticationService;
+    }
+
+    @Override
+    public void run(String @NonNull ... args) {
+        spotifyAuthenticationService.authenticateClientCredentials();
+    }
+}
