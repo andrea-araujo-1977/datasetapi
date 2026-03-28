@@ -22,3 +22,11 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+/target/classes/application.yaml
+/.idea/compiler.xml
+/.idea/copilot.data.migration.ask2agent.xml
+/.idea/encodings.xml
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/target/classes/META-INF/spring-configuration-metadata.json
+/.idea/vcs.xml
