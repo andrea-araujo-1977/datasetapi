@@ -1,0 +1,16 @@
+spring:
+  data:
+    jdbc:
+      dialect: h2
+  datasource:
+    url: jdbc:h2:mem:datasetapi;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+app:
+  startup:
+    spotify-auth:
+      enabled: false
+
+
