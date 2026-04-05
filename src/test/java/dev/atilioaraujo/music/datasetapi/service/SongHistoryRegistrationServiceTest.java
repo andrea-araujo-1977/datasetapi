@@ -9,10 +9,6 @@ import dev.atilioaraujo.music.datasetapi.domain.Album;
 import dev.atilioaraujo.music.datasetapi.domain.Artist;
 import dev.atilioaraujo.music.datasetapi.domain.Song;
 import dev.atilioaraujo.music.datasetapi.domain.SongHistory;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.List;
-
 import dev.atilioaraujo.music.datasetapi.exception.SongHistoryAlreadyRegisteredException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,13 +16,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SongHistoryRegistrationServiceTest {
@@ -86,7 +84,7 @@ class SongHistoryRegistrationServiceTest {
         when(albumDao.findByNameIgnoreCase("Sixteen Stone")).thenReturn(List.of());
         when(albumDao.insert(any(Album.class))).thenReturn(new Album(12, "Sixteen Stone", null, 11));
 
-        when(songDao.findByNameIgnoreCase("Machinehead")).thenReturn(List.of());
+        when(songDao.findByNameIgnoreCase("MACHINE HEAD")).thenReturn(List.of());
         when(songDao.insert(any(Song.class))).thenReturn(new Song(13, "MACHINE HEAD", "Machinehead", 3, 12));
 
         when(songHistoryDao.insert(any(SongHistory.class)))

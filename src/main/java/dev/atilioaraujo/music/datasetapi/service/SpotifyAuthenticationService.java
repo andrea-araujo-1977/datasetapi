@@ -1,14 +1,14 @@
 package dev.atilioaraujo.music.datasetapi.service;
 
 import dev.atilioaraujo.music.datasetapi.configuration.SpotifyProperties;
-import java.time.Clock;
-import java.time.Instant;
-
 import dev.atilioaraujo.music.datasetapi.domain.spotify.SpotifyToken;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
+
+import java.time.Clock;
+import java.time.Instant;
 
 @Service
 public class SpotifyAuthenticationService {

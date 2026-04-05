@@ -9,14 +9,14 @@ import dev.atilioaraujo.music.datasetapi.domain.Album;
 import dev.atilioaraujo.music.datasetapi.domain.Artist;
 import dev.atilioaraujo.music.datasetapi.domain.Song;
 import dev.atilioaraujo.music.datasetapi.domain.SongHistory;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
 import dev.atilioaraujo.music.datasetapi.exception.SongHistoryAlreadyRegisteredException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Service
 public class SongHistoryRegistrationService {

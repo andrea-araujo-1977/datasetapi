@@ -3,7 +3,6 @@ package dev.atilioaraujo.music.datasetapi.service;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import se.michaelthelin.spotify.SpotifyApi;
-import se.michaelthelin.spotify.model_objects.specification.AudioFeatures;
 
 import java.util.Arrays;
 

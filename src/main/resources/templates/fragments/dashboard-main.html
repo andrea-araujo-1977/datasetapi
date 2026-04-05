@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<main th:fragment="dashboardMain" class="pl-72 pr-8 py-10 space-y-10">
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 relative group overflow-hidden rounded-xl bg-surface-container-low h-80 flex flex-col justify-end p-8">
+            <img alt="Live Now Background" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8gu7pP0nPKeHsgJyF7Qx3rDXlxmXyPswcmRKUUq3j-2G_KmkrNdgqro6FinjwARZRYTh89W8RWOb8Y52FQYOxQrTDWpfgoNg64ncELew6FIDy6DxtRwerKI2y4XNiL2uAe0yDAsJzq9Fk1Oc4NfrR4aAqfYR7u3e3F83kxG2DpCQrKhghG_4vUGB1KGtHmDLtPkhZ_iTPGw-VMVU5YQAxSyUz_o253TJvP0WmBybP_3CmkI9fvt0mTLpsypAbkoXoWIQtxF-h_ZY"/>
+            <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+            <div class="relative z-10 space-y-4"
+                 th:with="currentSong=${#lists.isEmpty(dashboardData.lastFivePlayedSongs) ? null : dashboardData.lastFivePlayedSongs.get(0)}">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                    <span class="label-sm font-bold tracking-widest text-primary uppercase font-label">Streaming Live</span>
+                </div>
+                <h1 class="font-headline text-5xl font-extrabold tracking-tight"
+                    th:text="${currentSong != null ? (currentSong.songNameStreaming != null ? currentSong.songNameStreaming : currentSong.songNameSource) : 'No song playing'}">After Hours Echoes</h1>
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-on-surface-variant">person</span>
+                        <span class="text-on-surface-variant font-medium"
+                              th:text="${currentSong != null ? currentSong.artistName : 'Unknown artist'}">The Weekend feat. Daft Punk</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-on-surface-variant">schedule</span>
+                        <span class="text-on-surface-variant font-medium">03:42 / 05:10</span>
+                    </div>
+                </div>
+                <div class="w-full h-1 bg-surface-container-highest rounded-full mt-4">
+                    <div class="h-full bg-gradient-to-r from-primary to-primary-container rounded-full" style="width: 72%"></div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-4">
+            <div class="bg-surface-container rounded-xl p-6 flex flex-col justify-between hover:bg-surface-bright transition-all duration-300">
+                <div class="flex justify-between items-start">
+                    <span class="text-on-surface-variant font-label text-xs uppercase tracking-widest">Total Artists</span>
+                    <span class="material-symbols-outlined text-primary text-xl">groups</span>
+                </div>
+                <p class="font-headline text-4xl font-bold mt-2" th:text="${#numbers.formatInteger(dashboardData.totalArtists, 1, 'COMMA')}">1,284</p>
+                <!--p class="text-xs text-primary mt-1">+12 this week</p-->
+            </div>
+            <div class="bg-surface-container rounded-xl p-6 flex flex-col justify-between hover:bg-surface-bright transition-all duration-300">
+                <div class="flex justify-between items-start">
+                    <span class="text-on-surface-variant font-label text-xs uppercase tracking-widest">Total Songs</span>
+                    <span class="material-symbols-outlined text-primary text-xl">library_music</span>
+                </div>
+                <p class="font-headline text-4xl font-bold mt-2" th:text="${#numbers.formatInteger(dashboardData.totalSongs, 1, 'COMMA')}">24,591</p>
+                <p class="text-xs text-primary mt-1">4.2TB total library</p>
+            </div>
+            <div class="bg-surface-container rounded-xl p-6 flex flex-col justify-between hover:bg-surface-bright transition-all duration-300">
+                <div class="flex justify-between items-start">
+                    <span class="text-on-surface-variant font-label text-xs uppercase tracking-widest">Hours Monitored</span>
+                    <span class="material-symbols-outlined text-primary text-xl">timer</span>
+                </div>
+                <p class="font-headline text-4xl font-bold mt-2" th:text="${#numbers.formatInteger(dashboardData.totalAlbums, 1, 'COMMA')}">18,402</p>
+                <p class="text-xs text-primary mt-1">99.9% Uptime</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid grid-cols-1 xl:grid-cols-4 gap-8">
+        <div class="xl:col-span-3 bg-surface-container-low rounded-xl p-8 space-y-6">
+            <div class="flex justify-between items-center">
+                <h2 class="font-headline text-2xl font-bold">Recently Played</h2>
+                <button class="text-primary text-sm font-semibold hover:underline">View History</button>
+            </div>
+            <div class="space-y-2">
+                <div th:if="${#lists.isEmpty(dashboardData.lastFivePlayedSongs)}" class="text-center py-8 text-on-surface-variant">
+                    <p class="text-sm">No songs have been played yet</p>
+                </div>
+                <div th:each="song : ${dashboardData.lastFivePlayedSongs}" class="flex items-center gap-6 p-4 rounded-xl hover:bg-surface-container-high transition-all group">
+                    <span class="text-on-surface-variant font-medium w-8"
+                          th:text="${song.playedAt != null ? #temporals.format(song.playedAt.atZone(T(java.time.ZoneOffset).UTC).withZoneSameInstant(T(java.time.ZoneId).of(dashboardTimeZone)).toLocalDateTime(), 'HH:mm') : '--:--'}">12:45</span>
+                    <img alt="Album Cover" class="w-14 h-14 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8gu7pP0nPKeHsgJyF7Qx3rDXlxmXyPswcmRKUUq3j-2G_KmkrNdgqro6FinjwARZRYTh89W8RWOb8Y52FQYOxQrTDWpfgoNg64ncELew6FIDy6DxtRwerKI2y4XNiL2uAe0yDAsJzq9Fk1Oc4NfrR4aAqfYR7u3e3F83kxG2DpCQrKhghG_4vUGB1KGtHmDLtPkhZ_iTPGw-VMVU5YQAxSyUz_o253TJvP0WmBybP_3CmkI9fvt0mTLpsypAbkoXoWIQtxF-h_ZY"/>
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-on-surface group-hover:text-primary transition-colors" th:text="${song.songNameStreaming}">Midnight City</h4>
+                        <p class="text-sm text-on-surface-variant" th:text="${song.artistName + ' - ' + song.albumName}">M83 - Hurry Up, We're Dreaming</p>
+                    </div>
+                    <div class="flex gap-8 items-center">
+                        <span class="text-xs font-label uppercase tracking-tighter text-on-surface-variant bg-surface-container-highest px-2 py-1 rounded">Electronic</span>
+                        <span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer">favorite</span>
+                        <span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-surface-container rounded-xl p-8 space-y-8 h-full">
+            <div>
+                <h2 class="font-headline text-xl font-bold">Audio DNA</h2>
+                <p class="text-xs text-on-surface-variant uppercase tracking-widest mt-1">Channel Average</p>
+            </div>
+            <div class="space-y-8">
+                <div class="space-y-3">
+                    <div class="flex justify-between items-end">
+                        <span class="text-sm font-semibold">Energy</span>
+                        <span class="text-2xl font-headline font-bold text-primary">84%</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-primary to-primary-container" style="width: 84%"></div>
+                    </div>
+                    <p class="text-[10px] text-on-surface-variant">High intensity, driving beats</p>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-end">
+                        <span class="text-sm font-semibold">Valence</span>
+                        <span class="text-2xl font-headline font-bold text-primary">62%</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-primary to-primary-container" style="width: 62%"></div>
+                    </div>
+                    <p class="text-[10px] text-on-surface-variant">Balanced positive mood</p>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-end">
+                        <span class="text-sm font-semibold">Danceability</span>
+                        <span class="text-2xl font-headline font-bold text-primary">78%</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-primary to-primary-container" style="width: 78%"></div>
+                    </div>
+                    <p class="text-[10px] text-on-surface-variant">Heavy rhythmic presence</p>
+                </div>
+                <div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] uppercase tracking-widest text-on-surface-variant">Avg Tempo</p>
+                        <p class="text-xl font-bold">124 BPM</p>
+                    </div>
+                    <div class="flex gap-1 h-8 items-end">
+                        <div class="w-1 bg-primary h-4 rounded-full"></div>
+                        <div class="w-1 bg-primary h-6 rounded-full"></div>
+                        <div class="w-1 bg-primary h-3 rounded-full"></div>
+                        <div class="w-1 bg-primary h-8 rounded-full"></div>
+                        <div class="w-1 bg-primary h-5 rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
+        <div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="p-3 bg-primary/10 rounded-lg">
+                    <span class="material-symbols-outlined text-primary">trending_up</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Audience Growth</h3>
+                    <p class="text-xs text-on-surface-variant">+15.4% unique listeners today</p>
+                </div>
+            </div>
+            <div class="h-40 w-full flex items-end gap-2">
+                <div class="flex-1 bg-surface-container-highest rounded-t-lg h-[40%] hover:bg-primary/40 transition-all"></div>
+                <div class="flex-1 bg-surface-container-highest rounded-t-lg h-[55%] hover:bg-primary/40 transition-all"></div>
+                <div class="flex-1 bg-surface-container-highest rounded-t-lg h-[70%] hover:bg-primary/40 transition-all"></div>
+                <div class="flex-1 bg-surface-container-highest rounded-t-lg h-[65%] hover:bg-primary/40 transition-all"></div>
+                <div class="flex-1 bg-surface-container-highest rounded-t-lg h-[85%] hover:bg-primary/40 transition-all"></div>
+                <div class="flex-1 bg-primary/20 rounded-t-lg h-[95%] hover:bg-primary transition-all"></div>
+                <div class="flex-1 bg-primary/40 rounded-t-lg h-[90%] hover:bg-primary transition-all"></div>
+            </div>
+        </div>
+        <div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="p-3 bg-primary/10 rounded-lg">
+                    <span class="material-symbols-outlined text-primary">bolt</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Curator Recommendation</h3>
+                    <p class="text-xs text-on-surface-variant">Based on energy trends</p>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-surface-container-highest p-4 rounded-xl flex items-center gap-4">
+                    <img alt="Rec Artist" class="w-12 h-12 rounded object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw1d6eGIwv0O047BnXuWoB4dod1TL719AFlKakX7c7xXB4_Tee0JDTGUXll4mpq1oCI6riFdN8eRmSJcYyblupo_iB1W9lp8PhbeAkzss6YMOTsgHBjEkwg9QJ4G0hLVRYkT2gjHn-0RR-R2woT_a3lu3ILmtVnHUY1sVo8fy0Eiaou6MXP5es4fneegs-cYunAsKmiQe52J-ISUgFqm2EhRyuEs4wsohmSfrCHFesKMAlu_OTulOSWwQQHizfjXaEL7rZBHOweRY"/>
+                    <div>
+                        <p class="text-sm font-bold">Increase Energy at 5PM</p>
+                        <p class="text-xs text-on-surface-variant">Audience spikes correlate with BPM &gt; 120</p>
+                    </div>
+                    <button class="ml-auto text-primary">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                </div>
+                <div class="bg-surface-container-highest p-4 rounded-xl flex items-center gap-4">
+                    <img alt="Rec Artist" class="w-12 h-12 rounded object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWKSPaD2nAtqrYP8QN8QJC_qVHb-4kEQj9UFF6D_caF73QVt9ZeImnxuvwLc5UyQ1NuysrUP_miV6rOypgWTtacHSfKS08OOHwH41-40uz62y-_dYx5w2eDm6cnIaiNtPOe21Bbr6n9swGLQ-hx7TxA8uw4txC0xOPp-Gk1t7Q98Y_LLzDM-zwfBEqRUvT-c1w7FxdO8rXOfyDLfwkHyDHIGBQOZOVrK1AS3pPHEosWigyEvkWsl42fwPPEushhc7UPIURN3GSmI"/>
+                    <div>
+                        <p class="text-sm font-bold">Top Artist: Disclosure</p>
+                        <p class="text-xs text-on-surface-variant">Recommended for upcoming drive-time slot</p>
+                    </div>
+                    <button class="ml-auto text-primary">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</html>
+

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common-fragments :: head('The Sonic Curator - Dashboard')}"></head>
+<body class="bg-background text-on-background antialiased overflow-x-hidden">
+<aside th:replace="~{fragments/common-fragments :: sidebar('dashboard')}"></aside>
+<header th:replace="~{fragments/common-fragments :: topbar}"></header>
+<main th:replace="~{fragments/dashboard-main :: dashboardMain}"></main>
+<button th:replace="~{fragments/common-fragments :: broadcastAction}"></button>
+</body>
+</html>
+

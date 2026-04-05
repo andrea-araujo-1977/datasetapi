@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="head(title)">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title th:text="${title}">The Sonic Curator - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css"/>
+    <script th:src="@{/js/app.js}" src="/js/app.js"></script>
+</th:block>
+
+<aside th:fragment="sidebar(activePage)" class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-neutral-950 dark:bg-[#0e0e0e] flex flex-col p-4 gap-2 z-50">
+    <div class="mb-8 px-4">
+        <span class="text-xl font-extrabold tracking-tighter text-[#72fe8f] font-headline">The Sonic Curator</span>
+        <p class="text-[11px] uppercase tracking-widest text-neutral-400 font-label mt-1">Radio Admin</p>
+    </div>
+    <nav class="space-y-1">
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300" th:classappend="${activePage == 'dashboard'} ? ' text-[#72fe8f] bg-[#262626]' : ' text-neutral-400 hover:text-neutral-100 hover:bg-[#1a1a1a] hover:scale-[1.02]'" th:href="@{/home}">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="font-medium font-body">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300" th:classappend="${activePage == 'artists'} ? ' text-[#72fe8f] bg-[#262626]' : ' text-neutral-400 hover:text-neutral-100 hover:bg-[#1a1a1a] hover:scale-[1.02]'" th:href="@{/artist}">
+            <span class="material-symbols-outlined">mic_external_on</span>
+            <span class="font-medium font-body">Artists</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300" th:classappend="${activePage == 'songs'} ? ' text-[#72fe8f] bg-[#262626]' : ' text-neutral-400 hover:text-neutral-100 hover:bg-[#1a1a1a] hover:scale-[1.02]'" th:href="@{/song}">
+            <span class="material-symbols-outlined">music_note</span>
+            <span class="font-medium font-body">Songs</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300" th:classappend="${activePage == 'timeline'} ? ' text-[#72fe8f] bg-[#262626]' : ' text-neutral-400 hover:text-neutral-100 hover:bg-[#1a1a1a] hover:scale-[1.02]'" th:href="@{/song/history}">
+            <span class="material-symbols-outlined">history</span>
+            <span class="font-medium font-body">Timeline</span>
+        </a>
+    </nav>
+    <div class="mt-auto px-4 pb-4">
+        <button class="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary-container font-bold py-3 rounded-full hover:scale-105 active:scale-95 transition-all duration-200">
+            Broadcast Live
+        </button>
+    </div>
+</aside>
+
+<header th:fragment="topbar" class="bg-[#0e0e0e]/60 backdrop-blur-xl sticky top-0 z-40 flex justify-between items-center w-full pl-72 pr-8 h-20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+    <div class="flex items-center gap-4 w-96">
+        <div class="relative w-full focus-within:ring-1 focus-within:ring-[#72fe8f]/30 rounded-full transition-all">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500">search</span>
+            <input class="bg-surface-container-lowest border-none rounded-full pl-12 pr-4 py-2 w-full text-sm focus:ring-1 focus:ring-primary/40 text-on-surface" placeholder="Search tracks, artists..." type="text"/>
+        </div>
+    </div>
+    <div class="flex items-center gap-6">
+        <div class="flex gap-4">
+            <button class="hover:bg-[#262626] rounded-full p-2 transition-all text-on-surface-variant">
+                <span class="material-symbols-outlined">notifications</span>
+            </button>
+            <button class="hover:bg-[#262626] rounded-full p-2 transition-all text-on-surface-variant">
+                <span class="material-symbols-outlined">settings</span>
+            </button>
+        </div>
+        <div class="flex items-center gap-3 border-l border-outline-variant pl-6">
+            <div class="text-right">
+                <p class="text-sm font-semibold text-on-surface">Radio Admin Profile</p>
+                <p class="text-[10px] text-primary uppercase tracking-tighter">Online</p>
+            </div>
+            <img alt="Admin Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT9tS-ekiTgRHvxXgJirCbG2bmnW1GVU02_OWqjgwG6FJElPz3yr8pswO9UogkH1drTsDa9uEu-cUIYHVs4TX2UxmukWmb9f4_flS_okUs8TX2ZK7UQz__stJ7D6vLpSEPZQkib8YKxUce8aLU8jCz1bcpFIf6M6-8JQ7Bj7AkRi4hBCFVARS7_ukMeLPabRFPQc_clbouDBzEjwU8s4UWI6kcf89L3_5GV1d-0qRcw-TIzopzTP5aQAhllfMKysA8p6Q5s6i3kGo"/>
+        </div>
+    </div>
+</header>
+
+<button th:fragment="broadcastAction" class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary-container rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sensors</span>
+</button>
+</html>
+

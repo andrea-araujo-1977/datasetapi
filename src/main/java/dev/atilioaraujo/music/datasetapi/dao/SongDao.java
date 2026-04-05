@@ -1,16 +1,17 @@
 package dev.atilioaraujo.music.datasetapi.dao;
 
 import dev.atilioaraujo.music.datasetapi.domain.Song;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class SongDao {
@@ -76,6 +77,12 @@ public class SongDao {
                 .addValue("albumId", song.albumId()));
 
         return rows > 0;
+    }
+
+    public Integer getTotalCount() {
+        String sql = "SELECT COUNT(*) as total FROM song";
+        Integer count = jdbcTemplate.queryForObject(sql, Map.of(), Integer.class);
+        return count != null ? count : 0;
     }
 
     private static Song mapSong(ResultSet rs, int rowNum) throws SQLException {

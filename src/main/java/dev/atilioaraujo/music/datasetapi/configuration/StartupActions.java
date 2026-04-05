@@ -2,8 +2,8 @@ package dev.atilioaraujo.music.datasetapi.configuration;
 
 import dev.atilioaraujo.music.datasetapi.service.SpotifyAuthenticationService;
 import org.jspecify.annotations.NonNull;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component

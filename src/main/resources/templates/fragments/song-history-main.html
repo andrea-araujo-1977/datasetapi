@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<main th:fragment="songHistoryMain" class="flex-grow pl-64 flex flex-col h-screen relative">
+    <!-- Page Content -->
+    <div class="p-10 flex gap-8 overflow-hidden h-[calc(100vh-5rem)]">
+        <!-- Left: Timeline Stream -->
+        <div class="flex-grow flex flex-col gap-8 overflow-y-auto pr-4">
+            <section class="flex flex-col gap-2">
+                <h2 class="text-4xl font-extrabold font-headline tracking-tight text-white">Timeline History</h2>
+                <p class="text-on-surface-variant font-body">Review and analyze broadcasted playback data.</p>
+            </section>
+            <!-- Filter Bar -->
+            <div class="bg-surface-container-low p-6 rounded-xl flex flex-wrap items-end gap-6">
+                <div class="flex flex-col gap-2">
+                    <span class="text-[11px] uppercase tracking-widest text-on-surface-variant font-label">Start Date</span>
+                    <input class="bg-surface-container-lowest border-outline-variant/20 rounded-lg px-4 py-2 text-sm text-on-surface focus:ring-primary focus:border-primary" type="date"/>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <span class="text-[11px] uppercase tracking-widest text-on-surface-variant font-label">End Date</span>
+                    <input class="bg-surface-container-lowest border-outline-variant/20 rounded-lg px-4 py-2 text-sm text-on-surface focus:ring-primary focus:border-primary" type="date"/>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <span class="text-[11px] uppercase tracking-widest text-on-surface-variant font-label">Time Range</span>
+                    <div class="flex items-center gap-2">
+                        <input class="bg-surface-container-lowest border-outline-variant/20 rounded-lg px-3 py-2 text-sm text-on-surface" type="time" value="00:00"/>
+                        <span class="text-outline">to</span>
+                        <input class="bg-surface-container-lowest border-outline-variant/20 rounded-lg px-3 py-2 text-sm text-on-surface" type="time" value="23:59"/>
+                    </div>
+                </div>
+                <button class="bg-surface-container-highest hover:bg-surface-bright text-primary px-6 py-2.5 rounded-full font-bold transition-all ml-auto flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">filter_list</span>
+                    Apply Filters
+                </button>
+            </div>
+            <!-- Vertical Timeline -->
+            <div class="relative space-y-6">
+                <div class="absolute left-[2.25rem] top-4 bottom-4 w-px bg-gradient-to-b from-primary/40 via-surface-container-highest to-transparent"></div>
+
+                <div class="relative flex items-start gap-8 group">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary flex items-center justify-center z-10 shadow-[0_0_20px_rgba(114,254,143,0.3)]">
+                        <span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                    </div>
+                    <div class="flex-grow bg-surface-container-highest p-6 rounded-xl border-l-4 border-primary shadow-xl scale-[1.02] transition-transform cursor-pointer">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-primary font-label text-[11px] tracking-widest uppercase bg-primary/10 px-2 py-1 rounded">Now Playing</span>
+                            <span class="text-on-surface-variant font-label text-xs">14:28:45</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white font-headline">Neon Rebirth</h3>
+                        <p class="text-secondary-fixed text-sm">Synthetic Dreams feat. LUNA</p>
+                    </div>
+                </div>
+
+                <div class="relative flex items-start gap-8 group hover:scale-[1.01] transition-transform cursor-pointer">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-surface-container flex items-center justify-center z-10 border border-outline-variant/30">
+                        <span class="material-symbols-outlined text-on-surface-variant">music_note</span>
+                    </div>
+                    <div class="flex-grow bg-surface-container-low p-6 rounded-xl hover:bg-surface-container transition-colors">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-on-surface-variant font-label text-[11px] tracking-widest uppercase">Previous Track</span>
+                            <span class="text-on-surface-variant font-label text-xs">14:24:12</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Midnight Oscillations</h3>
+                        <p class="text-on-surface-variant text-sm">Carbon Echo</p>
+                    </div>
+                </div>
+
+                <div class="relative flex items-start gap-8 group hover:scale-[1.01] transition-transform cursor-pointer">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-surface-container flex items-center justify-center z-10 border border-outline-variant/30">
+                        <span class="material-symbols-outlined text-on-surface-variant">music_note</span>
+                    </div>
+                    <div class="flex-grow bg-surface-container-low p-6 rounded-xl hover:bg-surface-container transition-colors">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-on-surface-variant font-label text-[11px] tracking-widest uppercase">Previous Track</span>
+                            <span class="text-on-surface-variant font-label text-xs">14:19:58</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Pulse of the Deep</h3>
+                        <p class="text-on-surface-variant text-sm">The Low Frequency Collective</p>
+                    </div>
+                </div>
+
+                <div class="relative flex items-start gap-8 group hover:scale-[1.01] transition-transform cursor-pointer">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-surface-container flex items-center justify-center z-10 border border-outline-variant/30">
+                        <span class="material-symbols-outlined text-on-surface-variant">music_note</span>
+                    </div>
+                    <div class="flex-grow bg-surface-container-low p-6 rounded-xl hover:bg-surface-container transition-colors">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-on-surface-variant font-label text-[11px] tracking-widest uppercase">Previous Track</span>
+                            <span class="text-on-surface-variant font-label text-xs">14:15:20</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Atmospheric Drift</h3>
+                        <p class="text-on-surface-variant text-sm">Etheral Clouds</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Details Side Panel -->
+        <aside class="w-[450px] flex-shrink-0 glass-panel rounded-2xl flex flex-col overflow-hidden border border-outline-variant/10">
+            <div class="relative h-64">
+                <img class="w-full h-full object-cover" alt="Abstract vibrant digital art with neon green and deep black waves, symbolizing audio energy and electronic sound" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFKOALZSSPL-XvueFETmEqNVmyOTyLcJgoCD74qKvpIpQa4XNUzHr3-KY_etf_PyUn3hWgJkMw9q4aemxmO_f06h8N6haqladc_WpevxUP_NiKahC-h1tv7N62vdDEMhNEynw4suzxngGIV5nsCxo2sB-TuvOJGdzx-15itxRPJVv7Qvd1pYEtG7mJopQqJZLpMLuTrLAJ0xx3azSjXBjiJmtyc6vZgkSeku76SffnBQZFbQi2O0R9a6H5XS6uJXaZnmhXoPXiHlc"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-surface-container-highest to-transparent"></div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-primary text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Electronic</span>
+                        <span class="bg-surface-container-highest/80 backdrop-blur text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">High Energy</span>
+                    </div>
+                    <h4 class="text-2xl font-extrabold font-headline leading-none">Neon Rebirth</h4>
+                    <p class="text-primary-dim text-sm font-medium">Synthetic Dreams feat. LUNA</p>
+                </div>
+            </div>
+            <div class="flex-grow overflow-y-auto p-6 space-y-8">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-surface-container-lowest p-4 rounded-xl flex flex-col gap-1">
+                        <span class="text-[10px] text-on-surface-variant uppercase font-label">BPM</span>
+                        <span class="text-2xl font-extrabold text-primary font-headline tracking-tighter">128.4</span>
+                    </div>
+                    <div class="bg-surface-container-lowest p-4 rounded-xl flex flex-col gap-1">
+                        <span class="text-[10px] text-on-surface-variant uppercase font-label">Key / Mode</span>
+                        <span class="text-2xl font-extrabold text-primary font-headline tracking-tighter">C# Maj</span>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <h5 class="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                        Audio Characteristics
+                    </h5>
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs font-medium">
+                                <span class="text-secondary">Danceability</span>
+                                <span class="text-primary">0.84</span>
+                            </div>
+                            <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary-container to-primary" style="width: 84%;"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs font-medium">
+                                <span class="text-secondary">Energy</span>
+                                <span class="text-primary">0.92</span>
+                            </div>
+                            <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary-container to-primary" style="width: 92%;"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs font-medium">
+                                <span class="text-secondary">Valence (Mood)</span>
+                                <span class="text-primary">0.45</span>
+                            </div>
+                            <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary-container to-primary" style="width: 45%;"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs font-medium">
+                                <span class="text-secondary">Instrumentalness</span>
+                                <span class="text-primary">0.12</span>
+                            </div>
+                            <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary-container to-primary" style="width: 12%;"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs font-medium">
+                                <span class="text-secondary">Loudness</span>
+                                <span class="text-primary">-5.2 dB</span>
+                            </div>
+                            <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary-container to-primary" style="width: 78%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-4 flex flex-wrap gap-2">
+                    <div class="px-3 py-1.5 rounded-lg bg-surface-container-low border border-outline-variant/10 text-xs text-on-surface-variant flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[14px]">album</span>
+                        Released Oct 2023
+                    </div>
+                    <div class="px-3 py-1.5 rounded-lg bg-surface-container-low border border-outline-variant/10 text-xs text-on-surface-variant flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[14px]">timer</span>
+                        Duration: 03:45
+                    </div>
+                    <div class="px-3 py-1.5 rounded-lg bg-surface-container-low border border-outline-variant/10 text-xs text-on-surface-variant flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[14px]">copyright</span>
+                        Sonic Records Ltd.
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 border-t border-outline-variant/10 bg-surface-container-highest/40">
+                <button class="w-full py-3 bg-surface-container-low hover:bg-surface-bright text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all border border-outline-variant/20">
+                    <span class="material-symbols-outlined">analytics</span>
+                    Full Audio Analysis Report
+                </button>
+            </div>
+        </aside>
+    </div>
+</main>
+</html>
+

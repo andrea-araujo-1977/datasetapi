@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<main th:fragment="artistMain" class="pl-72 pr-8 pb-12 pt-8">
+    <!-- Header Section -->
+    <section class="mb-10 flex justify-between items-end">
+        <div>
+            <p class="text-primary font-label text-[11px] uppercase tracking-widest mb-2">Registry &amp; database</p>
+            <h2 class="text-4xl font-extrabold tracking-tight font-headline text-on-surface">Artists Ecosystem</h2>
+        </div>
+        <div class="flex gap-3">
+            <button class="px-6 py-2.5 rounded-full bg-surface-container-high text-secondary text-sm font-semibold hover:bg-surface-bright transition-all border border-outline-variant/10">
+                Sort by Name
+            </button>
+            <button class="px-6 py-2.5 rounded-full bg-surface-container-high text-secondary text-sm font-semibold hover:bg-surface-bright transition-all border border-outline-variant/10">
+                Filter by Genre
+            </button>
+        </div>
+    </section>
+
+    <!-- Bento Grid / Artist Gallery -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Artist Card 1 -->
+        <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:scale-[1.02] transition-all duration-300">
+            <div class="aspect-[4/5] relative">
+                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Close-up of a soulful jazz singer performing with a vintage microphone in a dimly lit, smoky club environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANMAuFNoE76-zrczspaBdh_Wc1ilbDUoOQ-T1IMAPZR7lGwPoqydKNVMrS3lVelB7YRDWRu-5K31TKrSgbXojx7TvU4C1kkvrU6xUKH2qm6GAcACxEpY5Pikt9gWLP7B3mSgtObk7nRmeFNxdUUo-euQ_qKVtdGFYaHh9h_Xe71XlMSrZZRlLsS0HjerO2JlQGohGRJrYQbYQL4Ifl58KuQ0IKvUzSfH5m_eV3Gi17eNSN_G3yxofqzxal4CdY5G2kF5COTGL4E_0"/>
+                <div class="absolute inset-0 artist-card-gradient"></div>
+                <div class="absolute bottom-0 p-6 w-full">
+                    <h3 class="text-2xl font-bold font-headline text-on-surface leading-tight">Luna Velasquez</h3>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="material-symbols-outlined text-primary text-xs">library_music</span>
+                        <span class="text-on-surface-variant text-sm font-medium">42 recorded tracks</span>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button class="w-10 h-10 rounded-full primary-gradient flex items-center justify-center text-on-primary-container shadow-lg">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Artist Card 2 -->
+        <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:scale-[1.02] transition-all duration-300">
+            <div class="aspect-[4/5] relative">
+                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Alternative rock band playing instruments on a stage with vibrant green and blue spotlights piercing through the dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBE1d1HkOfD1zaznCcv8OSDZTcIwbdh0UjnuvJz9TnaN5PVRjwcGyWCdgP8g-VupWpb4DiLggdKGAYCYdPPsIO2Yyg26UycG9K6HpE9hoQKvCYwCZUX8vMDCk2pMGhyEHu4nMSSrLa53NptgTp_UkDMPfbJJw69p-3hfK7IqJ__hgTCVKxXeRuHkV1ROh9Y1oVYKb5jnSLs2QCInoWqHfVqVUdHHABFaYdfkQuXfc4bm5oKsEjdGuH7LbfvkTVUQijQ4JTJSSupj88"/>
+                <div class="absolute inset-0 artist-card-gradient"></div>
+                <div class="absolute bottom-0 p-6 w-full">
+                    <h3 class="text-2xl font-bold font-headline text-on-surface leading-tight">Neon Echoes</h3>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="material-symbols-outlined text-primary text-xs">library_music</span>
+                        <span class="text-on-surface-variant text-sm font-medium">128 recorded tracks</span>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button class="w-10 h-10 rounded-full primary-gradient flex items-center justify-center text-on-primary-container shadow-lg">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Artist Card 3 -->
+        <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:scale-[1.02] transition-all duration-300">
+            <div class="aspect-[4/5] relative">
+                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Portrait of an indie electronic music producer surrounded by glowing synthesizers and modular gear in a high-tech studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg_rbO-J9M6Qd0CbG3eRN868S7kdgjLafv4U5_MtCuXSPLvbvXe_XJmSZdBVEYqVKkv9VImP2P4L-QlJkCvs1_wxk17eb0yet5eFgAUhRv0aAv1HFrHYLtNmb9hUpIavaD2rSYcxNPc5sjggxlf3kPKDXovriHhrbLT6ChWUEu2li9B6iFMA-OcdpW6cuhOjVgk0js0IjOmC_WnaZrMD6SmZzh2y9cUosyah6w6dkysBmsJZBODvEvrHTonhTb8nk-jB8chDh_l0c"/>
+                <div class="absolute inset-0 artist-card-gradient"></div>
+                <div class="absolute bottom-0 p-6 w-full">
+                    <h3 class="text-2xl font-bold font-headline text-on-surface leading-tight">Synth Voyager</h3>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="material-symbols-outlined text-primary text-xs">library_music</span>
+                        <span class="text-on-surface-variant text-sm font-medium">85 recorded tracks</span>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button class="w-10 h-10 rounded-full primary-gradient flex items-center justify-center text-on-primary-container shadow-lg">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Artist Card 4 -->
+        <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:scale-[1.02] transition-all duration-300">
+            <div class="aspect-[4/5] relative">
+                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="A cellist playing with intense focus during an orchestral performance, dramatic overhead lighting creating deep shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvCEgYBqptfXK7-QSw9_DS44c6LIIVjkim6KggAPNn3VMe8VzKwFWPL2uF2PLUv5Jd4Q2Gk5HStsMuU0gXIWRzvHbncDbT-Pkhsa5KBX2l-7qpk6ul7YB8axpbm777903WxvortHz-wQBUMgvB9_PpxXGEhklNM-VI-7o8mDhewTwZBOWfxKO0uwCQ91KDeLint1MZiH-vqCvyxU9jlHj6KkB92M7wCckb1NZTVxGFBHxeNS36CgbizzTw0Wq7w9gk2l5zS34httQ"/>
+                <div class="absolute inset-0 artist-card-gradient"></div>
+                <div class="absolute bottom-0 p-6 w-full">
+                    <h3 class="text-2xl font-bold font-headline text-on-surface leading-tight">Clara Montero</h3>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="material-symbols-outlined text-primary text-xs">library_music</span>
+                        <span class="text-on-surface-variant text-sm font-medium">56 recorded tracks</span>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button class="w-10 h-10 rounded-full primary-gradient flex items-center justify-center text-on-primary-container shadow-lg">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Artist Card 5 -->
+        <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:scale-[1.02] transition-all duration-300">
+            <div class="aspect-[4/5] relative">
+                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Silhouetted DJ at a massive outdoor festival with fire effects and strobe lights illuminating a huge crowd in the distance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9A-h7G5oV4FD-DjZaS8xBe9WsHm5l1K3Jwaah8c5_QB4d-2XxYAINs4Po0WMhfs0JVMFx-z5ktMoW6XNRnu6auFgxWIwr8tI8Y3vwX8eNxATYUYeAoVW8ke6TuFPBb6qZQmw7tSD9zxk2J0ceE2JF50VE9iIL00FblmwPaViDvXVkeEj2jmMzzRs2clWZGWU9qdy-Bhu9VonLUjBMaTKQyVVo02JPCYLqyjfrKAXwX9WaGynvFJZscdWcAgk1LKkrf0mrQKxTZNs"/>
+                <div class="absolute inset-0 artist-card-gradient"></div>
+                <div class="absolute bottom-0 p-6 w-full">
+                    <h3 class="text-2xl font-bold font-headline text-on-surface leading-tight">Apex Signal</h3>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="material-symbols-outlined text-primary text-xs">library_music</span>
+                        <span class="text-on-surface-variant text-sm font-medium">210 recorded tracks</span>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button class="w-10 h-10 rounded-full primary-gradient flex items-center justify-center text-on-primary-container shadow-lg">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Artist Card 6 -->
+        <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:scale-[1.02] transition-all duration-300">
+            <div class="aspect-[4/5] relative">
+                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Contemporary hip hop artist recording in a booth with soundproof foam walls and warm low-key atmospheric lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvFdos__Yt2PEycqSNFyLsP69kajKE75Ym9PJ0EKAjxdJ9MUPK-vHtw4TSoGm8-NE2kj8DoMg5rBU112VstzLvKchtfAXKIxrKy3S9oOifmRO_lHfbfqeNnbROhZem48jEHsQUm4UbSLllswPm75nla7CbP22rH1OteZluTD83JJzs4H9yiNk6I2g9Lj7JkrACB4-NkEbPnSfYFcYjBa9PtErlZEq1N5J3r2R6zyN1tAAFMJ8qD25aJi0djjA2mlPz6Vvjb3mDOGY"/>
+                <div class="absolute inset-0 artist-card-gradient"></div>
+                <div class="absolute bottom-0 p-6 w-full">
+                    <h3 class="text-2xl font-bold font-headline text-on-surface leading-tight">Marcus Flow</h3>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="material-symbols-outlined text-primary text-xs">library_music</span>
+                        <span class="text-on-surface-variant text-sm font-medium">73 recorded tracks</span>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button class="w-10 h-10 rounded-full primary-gradient flex items-center justify-center text-on-primary-container shadow-lg">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Artist Card 7 -->
+        <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:scale-[1.02] transition-all duration-300">
+            <div class="aspect-[4/5] relative">
+                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Hands of a classical pianist playing on ivory keys, monochrome aesthetic with soft cinematic lighting from the side" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBClMxJ93233wkqCyKnSJSucdth10v_sTOG6fBpXKopYyNgOeHssjuNs9iB6OLd5B636o3I_LnuG9ec4H-t71ghTDT9b3Ztzp8hdEX9WZ1A3TPFz9wQJd04H9qQBP2FSqQQUbHyorCgj8JhLpWemW14-J-muCe0BC3dLigdUn0cThatuITgoFNVq_FtosxV_XCpdbjOp_AiRW4BJ9kJJFf421NLGBWtUVn8l_WW6LNvcps2MYdMFdNU4b06yBzm4BI3onlYGnlwQiY"/>
+                <div class="absolute inset-0 artist-card-gradient"></div>
+                <div class="absolute bottom-0 p-6 w-full">
+                    <h3 class="text-2xl font-bold font-headline text-on-surface leading-tight">Julian Black</h3>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="material-symbols-outlined text-primary text-xs">library_music</span>
+                        <span class="text-on-surface-variant text-sm font-medium">34 recorded tracks</span>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button class="w-10 h-10 rounded-full primary-gradient flex items-center justify-center text-on-primary-container shadow-lg">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Artist Card 8 -->
+        <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:scale-[1.02] transition-all duration-300">
+            <div class="aspect-[4/5] relative">
+                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Folk singer playing an acoustic guitar by a campfire at dusk, warm orange glow reflecting on the instrument and face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsEBQ-PIrt1e27ofNo40v_LEMNaFZqB2DtxTAJK76IGffsMBBZj6pVWx_lscPHBrl7eqF5_A6kGOhjmECjnAM2zUM70yov4GRLT62ZphR_NnRyqIhtBVOpyMlhzZjqvQSL4E7Zi6qJjEjNKO9k97HkbVZgnKz74y1CGuvfedZwMDlncgc8ma3ezCqLg0leqbEppITWoBrpE7t_lHn5QFnO0AvXHT6zpM6498aTWkJXlghJuEE0zC_ja_jLJ4plqK150Qb4KKGk6M0"/>
+                <div class="absolute inset-0 artist-card-gradient"></div>
+                <div class="absolute bottom-0 p-6 w-full">
+                    <h3 class="text-2xl font-bold font-headline text-on-surface leading-tight">Ember Woods</h3>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="material-symbols-outlined text-primary text-xs">library_music</span>
+                        <span class="text-on-surface-variant text-sm font-medium">21 recorded tracks</span>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button class="w-10 h-10 rounded-full primary-gradient flex items-center justify-center text-on-primary-container shadow-lg">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination / Load More -->
+    <div class="mt-16 flex flex-col items-center">
+        <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-outline-variant/20 to-transparent mb-12"></div>
+        <button class="px-10 py-4 rounded-full bg-surface-container-highest text-primary font-bold tracking-tight hover:bg-surface-bright transition-all scale-100 active:scale-95 flex items-center gap-3">
+            <span class="material-symbols-outlined">expand_more</span>
+            Explore More Artists
+        </button>
+        <p class="text-on-surface-variant text-xs font-label uppercase tracking-widest mt-6">Showing 8 of 142 artists registered</p>
+    </div>
+</main>
+</html>
+

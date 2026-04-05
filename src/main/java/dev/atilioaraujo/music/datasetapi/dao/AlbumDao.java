@@ -1,18 +1,19 @@
 package dev.atilioaraujo.music.datasetapi.dao;
 
 import dev.atilioaraujo.music.datasetapi.domain.Album;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class AlbumDao {
@@ -75,6 +76,12 @@ public class AlbumDao {
                 .addValue("artistId", album.artistId()));
 
         return rows > 0;
+    }
+
+    public Integer getTotalCount() {
+        String sql = "SELECT COUNT(*) as total FROM album";
+        Integer count = jdbcTemplate.queryForObject(sql, Map.of(), Integer.class);
+        return count != null ? count : 0;
     }
 
     private static Album mapAlbum(ResultSet rs, int rowNum) throws SQLException {
