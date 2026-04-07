@@ -76,16 +76,25 @@ class SongHistoryRegistrationServiceTest {
                 .thenReturn(List.of());
 
         when(spotifyCatalogLookupService.findTrack("BUSH", "MACHINE HEAD"))
-                .thenReturn(new SpotifyCatalogLookupService.SpotifyTrackInfo("Machinehead", "Bush", "Sixteen Stone", 3));
+                .thenReturn(new SpotifyCatalogLookupService.SpotifyTrackInfo(
+                        "Machinehead",
+                        "Bush",
+                        "grunge/alternative rock",
+                        "Sixteen Stone",
+                        null,
+                        "https://example.com/cover.png",
+                        3,
+                        312000
+                ));
 
         when(artistDao.findByNameIgnoreCase("Bush")).thenReturn(List.of());
-        when(artistDao.insert(any(Artist.class))).thenReturn(new Artist(11, "Bush"));
+        when(artistDao.insert(any(Artist.class))).thenReturn(new Artist(11, "Bush", "grunge/alternative rock"));
 
         when(albumDao.findByNameIgnoreCase("Sixteen Stone")).thenReturn(List.of());
-        when(albumDao.insert(any(Album.class))).thenReturn(new Album(12, "Sixteen Stone", null, 11));
+        when(albumDao.insert(any(Album.class))).thenReturn(new Album(12, "Sixteen Stone", null, "https://example.com/cover.png", 11));
 
         when(songDao.findByNameIgnoreCase("MACHINE HEAD")).thenReturn(List.of());
-        when(songDao.insert(any(Song.class))).thenReturn(new Song(13, "MACHINE HEAD", "Machinehead", 3, 12));
+        when(songDao.insert(any(Song.class))).thenReturn(new Song(13, "MACHINE HEAD", "Machinehead", 3, 312000, 12));
 
         when(songHistoryDao.insert(any(SongHistory.class)))
                 .thenReturn(new SongHistory(20, 13, LocalDateTime.parse("2026-03-24T23:26:26")));

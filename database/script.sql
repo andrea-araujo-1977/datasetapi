@@ -4,6 +4,7 @@ USE "songs-dataset";
 CREATE TABLE "artist" (
   "id_artist" int NOT NULL AUTO_INCREMENT,
   "nm_artist" varchar(100) NOT NULL,
+  "ds_genre" varchar(255) DEFAULT NULL,
   PRIMARY KEY ("id_artist"),
   KEY "nm_artist_idx" ("nm_artist")
 );
@@ -12,6 +13,7 @@ CREATE TABLE "album" (
      "id_album" int NOT NULL AUTO_INCREMENT,
      "nm_album" varchar(100) NOT NULL,
      "dt_release" date DEFAULT NULL,
+     "ds_cover_image_url" varchar(500) DEFAULT NULL,
      "id_artist" int NOT NULL,
      PRIMARY KEY ("id_album"),
      KEY "fk_artist_idx" ("id_artist"),
@@ -22,6 +24,7 @@ CREATE TABLE "song" (
     "id_song" int NOT NULL AUTO_INCREMENT,
     "nm_song_source" varchar(150) NOT NULL COMMENT 'Song''s name as collected',
     "id_track_number" int NOT NULL,
+    "id_length_ms" int DEFAULT NULL,
     "id_album" int NOT NULL,
     "nm_song_streaming" varchar(150) DEFAULT NULL COMMENT 'Song''s name recovered at streaming service',
     PRIMARY KEY ("id_song"),

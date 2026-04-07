@@ -15,6 +15,8 @@ public record Album(
         String name,
         @Column("dt_release")
         LocalDate releaseDate,
+        @Column("ds_cover_image_url")
+        String coverImageUrl,
         @Column("id_artist")
         Integer artistId
 ) {

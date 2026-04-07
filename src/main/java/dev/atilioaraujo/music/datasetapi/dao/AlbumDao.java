@@ -28,7 +28,7 @@ public class AlbumDao {
 
     public List<Album> findByNameIgnoreCase(String name) {
         String sql = """
-                SELECT id_album, nm_album, dt_release, id_artist
+                SELECT id_album, nm_album, dt_release, ds_cover_image_url, id_artist
                 FROM album
                 WHERE LOWER(nm_album) = LOWER(:name)
                 ORDER BY id_album
@@ -39,13 +39,14 @@ public class AlbumDao {
 
     public Album insert(Album album) {
         String sql = """
-                INSERT INTO album (nm_album, dt_release, id_artist)
-                VALUES (:name, :releaseDate, :artistId)
+                INSERT INTO album (nm_album, dt_release, ds_cover_image_url, id_artist)
+                VALUES (:name, :releaseDate, :coverImageUrl, :artistId)
                 """;
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("name", album.name())
                 .addValue("releaseDate", album.releaseDate())
+                .addValue("coverImageUrl", album.coverImageUrl())
                 .addValue("artistId", album.artistId());
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -53,7 +54,7 @@ public class AlbumDao {
 
         Number generatedId = keyHolder.getKey();
         Integer id = generatedId != null ? generatedId.intValue() : null;
-        return new Album(id, album.name(), album.releaseDate(), album.artistId());
+        return new Album(id, album.name(), album.releaseDate(), album.coverImageUrl(), album.artistId());
     }
 
     public boolean update(Album album) {
@@ -65,6 +66,7 @@ public class AlbumDao {
                 UPDATE album
                 SET nm_album = :name,
                     dt_release = :releaseDate,
+                    ds_cover_image_url = :coverImageUrl,
                     id_artist = :artistId
                 WHERE id_album = :idAlbum
                 """;
@@ -73,6 +75,7 @@ public class AlbumDao {
                 .addValue("idAlbum", album.idAlbum())
                 .addValue("name", album.name())
                 .addValue("releaseDate", album.releaseDate())
+                .addValue("coverImageUrl", album.coverImageUrl())
                 .addValue("artistId", album.artistId()));
 
         return rows > 0;
@@ -92,6 +95,7 @@ public class AlbumDao {
                 rs.getInt("id_album"),
                 rs.getString("nm_album"),
                 releaseDate,
+                rs.getString("ds_cover_image_url"),
                 rs.getInt("id_artist")
         );
     }
