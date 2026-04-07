@@ -10,7 +10,9 @@ public record Artist(
         @Column("id_artist")
         Integer idArtist,
         @Column("nm_artist")
-        String name
+        String name,
+        @Column("ds_genre")
+        String genre
 ) {
 }
 

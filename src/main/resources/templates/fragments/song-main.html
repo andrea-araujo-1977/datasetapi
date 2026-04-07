@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<main th:fragment="songMain" class="pl-64 min-h-screen">
+
+    <!-- Content Canvas -->
+    <div class="p-10 max-w-[1600px] mx-auto">
+        <!-- Page Header & Filters -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div>
+                <h2 class="font-headline text-4xl font-extrabold tracking-tight text-on-surface mb-2">Music Library</h2>
+                <p class="text-on-surface-variant font-medium">Curating 1,284 high-fidelity tracks across the broadcast network.</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <div class="flex bg-surface-container-low p-1 rounded-full">
+                    <button class="px-5 py-2 rounded-full bg-surface-container-highest text-primary text-xs font-bold tracking-wide">All Genres</button>
+                    <button class="px-5 py-2 rounded-full text-on-surface-variant text-xs font-bold tracking-wide hover:text-on-surface transition-colors">Electronic</button>
+                    <button class="px-5 py-2 rounded-full text-on-surface-variant text-xs font-bold tracking-wide hover:text-on-surface transition-colors">Jazz</button>
+                </div>
+                <div class="relative">
+                    <select class="appearance-none bg-surface-container-low text-on-surface text-xs font-bold px-5 py-3 pr-10 rounded-full border-none focus:ring-1 focus:ring-primary/30 cursor-pointer">
+                        <option>Release Year</option>
+                        <option>2024</option>
+                        <option>2023</option>
+                        <option>Classic</option>
+                    </select>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-sm">expand_more</span>
+                </div>
+                <button class="flex items-center gap-2 px-5 py-3 rounded-full bg-surface-container-highest hover:bg-surface-bright text-xs font-bold transition-all active:scale-95">
+                    <span class="material-symbols-outlined text-sm">filter_list</span>
+                    Advanced
+                </button>
+            </div>
+        </div>
+
+        <!-- Data Table Container -->
+        <div class="bg-surface-container-low rounded-xl overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr class="bg-surface-container/50">
+                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Track</th>
+                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Album</th>
+                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Year</th>
+                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">BPM / Energy</th>
+                        <th class="px-6 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant/10">
+                    <tr class="group hover:bg-surface-container transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-4">
+                                <div class="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                    <img alt="Album Cover" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEFUCz6pdPpUSmnd8wb1fFoC4tTX2ooFYL20PZomWwad_vt2flygV9QFlMwatZLiiprBgwpbJ1CNfyvHm5nWnvKvrmx8vd3lA3OjQIrw2mU2n7k0vW24LM0UDbh4_ytqRefdTRsAz5G25atyLC7-3_T77knMaPEqZWZk9lGRd3brsleCheDxVPNd7kRPgqQBA9IyRDNHNKvN4ef0ZAltSWxMoIi3c46s2bb-9FaOGTQk22CbCa5ovk049BNs-1fp9Cb5rgkBeZXtc"/>
+                                    <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                        <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-sm text-on-surface font-headline leading-tight">Neon Pulse</p>
+                                    <p class="text-xs text-on-surface-variant font-medium">Synthwave Collective</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4"><p class="text-sm text-secondary font-medium">Digital Voids</p></td>
+                        <td class="px-6 py-4"><p class="text-xs text-on-surface-variant font-medium">2024</p></td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs font-bold text-primary font-body">128</span>
+                                <div class="w-24 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-primary to-primary-container" style="width: 85%;"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <button class="px-4 py-2 rounded-full text-[10px] font-extrabold uppercase tracking-widest text-primary hover:bg-primary/10 transition-all">Ver Detalhes</button>
+                        </td>
+                    </tr>
+                    <tr class="group hover:bg-surface-container transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-4">
+                                <div class="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                    <img alt="Album Cover" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM7DEZVR_ai86DIe90bnZNGMiSxIh1_FhZwc-hQV3cbghypaNv1hzYbNh6IQEnovQCH1sI0mcHBrgb8gZRRNdkL_HoICc8uVX1MLJRp0ZqUYVLlCv2xkilxVCyow7xc-em0_02aVBhW2i21CnoguX0IQEvviRgLmoLC2fx9ObZz4-jKxKLVz-Lgs-BXQmkve-XxaZUuF1ceUbAdkaW2-QIjMmx0rejWOPE3evjeUuqNQjXgkQWwE-oOtvgtqPZP31Jql3bakWiFK0"/>
+                                    <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                        <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-sm text-on-surface font-headline leading-tight">Midnight Orbit</p>
+                                    <p class="text-xs text-on-surface-variant font-medium">Aetheria</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4"><p class="text-sm text-secondary font-medium">Celestial Silence</p></td>
+                        <td class="px-6 py-4"><p class="text-xs text-on-surface-variant font-medium">2023</p></td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs font-bold text-primary font-body">104</span>
+                                <div class="w-24 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-primary to-primary-container" style="width: 45%;"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <button class="px-4 py-2 rounded-full text-[10px] font-extrabold uppercase tracking-widest text-primary hover:bg-primary/10 transition-all">Ver Detalhes</button>
+                        </td>
+                    </tr>
+                    <tr class="group hover:bg-surface-container transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-4">
+                                <div class="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                    <img alt="Album Cover" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCySVPpvxxxdIS0mYisgzg9wTR6etk15zXkUIjhyXUpI4exInJr3IUJ1Ee3XWVTZC8cv4lOAZzL-i8KCY2cxXyCubFyP1uTPLjqd_1zQRLKKSuMhMYH8IUVz8qo-Ak4Krhw_60tBHsi6D4zyBWmUvAVTT3-b-qH7za768AP0Wz0Glg_bZ7mTVf-7Zb4rUqn3JbLFMsjos0vbekmBUWHJrUnjsjxi9xrkVsuRStME9vu9idgW5W7D0C3q3v3b2qqrlUfStLzSoIeXPc"/>
+                                    <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                        <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-sm text-on-surface font-headline leading-tight">Echo Chambers</p>
+                                    <p class="text-xs text-on-surface-variant font-medium">The Ghost Writers</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4"><p class="text-sm text-secondary font-medium">Modern Relics</p></td>
+                        <td class="px-6 py-4"><p class="text-xs text-on-surface-variant font-medium">2022</p></td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs font-bold text-primary font-body">142</span>
+                                <div class="w-24 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-primary to-primary-container" style="width: 92%;"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <button class="px-4 py-2 rounded-full text-[10px] font-extrabold uppercase tracking-widest text-primary hover:bg-primary/10 transition-all">Ver Detalhes</button>
+                        </td>
+                    </tr>
+                    <tr class="group hover:bg-surface-container transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-4">
+                                <div class="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                    <img alt="Album Cover" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhtMBwvq8K910JVRnC8TrMsB9d5SMxc3eGGzk2zqcZACuABfuKdnNFDVrvsuSnP8y1keId_hZ6XE3rMV33M7CJSYI9znu6Vn2p1EujpdGLlQ_AkK4HgSJBiy4Ho78vzfafiX74ho4Axc4IU622iMWzOYzeGFVuWQZaDHnUGTrhxPwBH587chcOWdJzd0wn9LVl6mTleEfmwvmAOiEx45OSyDcE0h6F3Q36SUlVlPhKzsEZNc8abpobEdsjHjK_LK8T4ckgLUvmF-o"/>
+                                    <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                        <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-sm text-on-surface font-headline leading-tight">Analog Dreams</p>
+                                    <p class="text-xs text-on-surface-variant font-medium">Vintage Future</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4"><p class="text-sm text-secondary font-medium">Tape Hiss Sessions</p></td>
+                        <td class="px-6 py-4"><p class="text-xs text-on-surface-variant font-medium">2024</p></td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs font-bold text-primary font-body">95</span>
+                                <div class="w-24 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-primary to-primary-container" style="width: 30%;"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <button class="px-4 py-2 rounded-full text-[10px] font-extrabold uppercase tracking-widest text-primary hover:bg-primary/10 transition-all">Ver Detalhes</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-6 border-t border-outline-variant/10 flex items-center justify-between">
+                <p class="text-xs font-medium text-on-surface-variant">Showing <span class="text-on-surface">1 - 4</span> of 1,284 tracks</p>
+                <div class="flex items-center gap-2">
+                    <button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-highest text-on-surface-variant hover:text-on-surface transition-all">
+                        <span class="material-symbols-outlined text-sm">chevron_left</span>
+                    </button>
+                    <div class="flex gap-1">
+                        <button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-on-primary-container text-xs font-bold">1</button>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-all text-xs font-bold">2</button>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-all text-xs font-bold">3</button>
+                    </div>
+                    <button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-highest text-on-surface-variant hover:text-on-surface transition-all">
+                        <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-surface-container rounded-xl p-6 hover:scale-[1.01] transition-transform">
+                <p class="text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant mb-4">Storage Used</p>
+                <div class="flex items-end justify-between">
+                    <h3 class="font-headline text-3xl font-extrabold">842 GB</h3>
+                    <span class="text-primary-dim font-bold text-xs mb-1">+2.4% this week</span>
+                </div>
+            </div>
+            <div class="bg-surface-container rounded-xl p-6 hover:scale-[1.01] transition-transform">
+                <p class="text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant mb-4">Avg. Bitrate</p>
+                <div class="flex items-end justify-between">
+                    <h3 class="font-headline text-3xl font-extrabold">320kbps</h3>
+                    <div class="flex gap-0.5 mb-1">
+                        <div class="w-1 h-3 bg-primary rounded-full"></div>
+                        <div class="w-1 h-5 bg-primary rounded-full"></div>
+                        <div class="w-1 h-4 bg-primary rounded-full"></div>
+                        <div class="w-1 h-2 bg-primary rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-surface-container-highest rounded-xl p-6 border border-primary/10 relative overflow-hidden group">
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-all"></div>
+                <p class="text-[10px] font-extrabold uppercase tracking-widest text-primary mb-4">Network Status</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 bg-primary rounded-full animate-pulse shadow-[0_0_15px_rgba(114,254,143,0.5)]"></div>
+                    <h3 class="font-headline text-2xl font-extrabold">Optimal Connection</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</html>
+

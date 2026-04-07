@@ -9,14 +9,15 @@ import dev.atilioaraujo.music.datasetapi.domain.Album;
 import dev.atilioaraujo.music.datasetapi.domain.Artist;
 import dev.atilioaraujo.music.datasetapi.domain.Song;
 import dev.atilioaraujo.music.datasetapi.domain.SongHistory;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
 import dev.atilioaraujo.music.datasetapi.exception.SongHistoryAlreadyRegisteredException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Service
 public class SongHistoryRegistrationService {
@@ -51,9 +52,20 @@ public class SongHistoryRegistrationService {
         SpotifyCatalogLookupService.SpotifyTrackInfo spotifyTrackInfo =
                 spotifyCatalogLookupService.findTrack(request.artista(), request.musica());
 
-        Artist artist = resolveArtist(spotifyTrackInfo.artistName());
-        Album album = resolveAlbum(spotifyTrackInfo.albumName(), artist.idArtist());
-        Song song = resolveSong(request.musica(), spotifyTrackInfo.songName(), spotifyTrackInfo.trackNumber(), album.idAlbum());
+        Artist artist = resolveArtist(spotifyTrackInfo.artistName(), spotifyTrackInfo.artistGenre());
+        Album album = resolveAlbum(
+                spotifyTrackInfo.albumName(),
+                spotifyTrackInfo.albumReleaseDate(),
+                spotifyTrackInfo.albumCoverImageUrl(),
+                artist.idArtist()
+        );
+        Song song = resolveSong(
+                request.musica(),
+                spotifyTrackInfo.songName(),
+                spotifyTrackInfo.trackNumber(),
+                spotifyTrackInfo.lengthMs(),
+                album.idAlbum()
+        );
 
         return songHistoryDao.insert(new SongHistory(null, song.idSong(), playedAt));
     }
@@ -70,27 +82,27 @@ public class SongHistoryRegistrationService {
         }
     }
 
-    private Artist resolveArtist(String artistName) {
+    private Artist resolveArtist(String artistName, String artistGenre) {
         return artistDao.findByNameIgnoreCase(artistName)
                 .stream()
                 .findFirst()
-                .orElseGet(() -> artistDao.insert(new Artist(null, artistName)));
+                .orElseGet(() -> artistDao.insert(new Artist(null, artistName, artistGenre)));
     }
 
-    private Album resolveAlbum(String albumName, Integer artistId) {
+    private Album resolveAlbum(String albumName, LocalDate releaseDate, String coverImageUrl, Integer artistId) {
         return albumDao.findByNameIgnoreCase(albumName)
                 .stream()
                 .filter(album -> artistId.equals(album.artistId()))
                 .findFirst()
-                .orElseGet(() -> albumDao.insert(new Album(null, albumName, null, artistId)));
+                .orElseGet(() -> albumDao.insert(new Album(null, albumName, releaseDate, coverImageUrl, artistId)));
     }
 
-    private Song resolveSong(String songNameSource, String songNameStreaming, Integer trackNumber, Integer albumId) {
+    private Song resolveSong(String songNameSource, String songNameStreaming, Integer trackNumber, Integer lengthMs, Integer albumId) {
         return songDao.findByNameIgnoreCase(songNameSource)
                 .stream()
                 .filter(song -> albumId.equals(song.albumId()))
                 .findFirst()
-                .orElseGet(() -> songDao.insert(new Song(null, songNameSource,  songNameStreaming, normalizeTrackNumber(trackNumber), albumId)));
+                .orElseGet(() -> songDao.insert(new Song(null, songNameSource, songNameStreaming, normalizeTrackNumber(trackNumber), lengthMs, albumId)));
     }
 
     private static int normalizeTrackNumber(Integer trackNumber) {

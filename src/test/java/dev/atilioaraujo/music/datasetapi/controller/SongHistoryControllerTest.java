@@ -12,14 +12,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 class SongHistoryControllerTest {
@@ -40,17 +35,15 @@ class SongHistoryControllerTest {
     @Test
     void shouldReturnCreatedWhenRegistrationSucceeds() throws Exception {
         String payload = """
-                [
-                  {
-                    "musica": "MACHINE HEAD",
-                    "artista": "BUSH",
-                    "timestamp": 1774394786,
-                    "data_hora": "2026-03-24T23:26:26.000Z"
-                  }
-                ]
+                {
+                  "musica": "MACHINE HEAD",
+                  "artista": "BUSH",
+                  "timestamp": 1774394786,
+                  "data_hora": "2026-03-24T23:26:26.000Z"
+                }
                 """;
 
-        mockMvc.perform(post("/song/history")
+        mockMvc.perform(post("/api/song/history")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
                 .andExpect(status().isCreated())
@@ -62,21 +55,19 @@ class SongHistoryControllerTest {
     @Test
     void shouldReturnCreatedWhenSongAlreadyRegisteredExceptionIsThrown() throws Exception {
         String payload = """
-                [
-                  {
-                    "musica": "MACHINE HEAD",
-                    "artista": "BUSH",
-                    "timestamp": 1774394786,
-                    "data_hora": "2026-03-24T23:26:26.000Z"
-                  }
-                ]
+                {
+                  "musica": "MACHINE HEAD",
+                  "artista": "BUSH",
+                  "timestamp": 1774394786,
+                  "data_hora": "2026-03-24T23:26:26.000Z"
+                }
                 """;
 
         doThrow(new SongHistoryAlreadyRegisteredException("already registered"))
                 .when(songHistoryRegistrationService)
                 .register(any());
 
-        mockMvc.perform(post("/song/history")
+        mockMvc.perform(post("/api/song/history")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
                 .andExpect(status().isCreated())
@@ -85,22 +76,21 @@ class SongHistoryControllerTest {
 
     @Test
     void shouldReturnBadRequestWhenPayloadIsEmpty() throws Exception {
-        mockMvc.perform(post("/song/history")
+        mockMvc.perform(post("/api/song/history")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("[]"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Payload must contain at least one song history item"));
+                .andExpect(status().isBadRequest());
 
         verify(songHistoryRegistrationService, never()).register(any());
     }
 
     @Test
     void shouldReturnBadRequestWhenPayloadIsNull() throws Exception {
-        mockMvc.perform(post("/song/history")
+        mockMvc.perform(post("/api/song/history")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("null"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Payload must contain at least one song history item"));
+                .andExpect(jsonPath("$.message").value("Payload cannot be null"));
 
         verify(songHistoryRegistrationService, never()).register(any());
     }

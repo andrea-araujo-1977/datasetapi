@@ -15,6 +15,8 @@ public record Song(
         String nameStreaming,
         @Column("id_track_number")
         Integer trackNumber,
+        @Column("id_length_ms")
+        Integer lengthMs,
         @Column("id_album")
         Integer albumId
 ) {
