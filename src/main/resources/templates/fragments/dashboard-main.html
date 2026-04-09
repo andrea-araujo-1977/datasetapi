@@ -2,11 +2,13 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <main th:fragment="dashboardMain" class="pl-72 pr-8 py-10 space-y-10">
     <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 relative group overflow-hidden rounded-xl bg-surface-container-low h-80 flex flex-col justify-end p-8">
-            <img alt="Live Now Background" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8gu7pP0nPKeHsgJyF7Qx3rDXlxmXyPswcmRKUUq3j-2G_KmkrNdgqro6FinjwARZRYTh89W8RWOb8Y52FQYOxQrTDWpfgoNg64ncELew6FIDy6DxtRwerKI2y4XNiL2uAe0yDAsJzq9Fk1Oc4NfrR4aAqfYR7u3e3F83kxG2DpCQrKhghG_4vUGB1KGtHmDLtPkhZ_iTPGw-VMVU5YQAxSyUz_o253TJvP0WmBybP_3CmkI9fvt0mTLpsypAbkoXoWIQtxF-h_ZY"/>
+        <div class="lg:col-span-2 relative group overflow-hidden rounded-xl bg-surface-container-low h-80 flex flex-col justify-end p-8"
+             th:with="currentSong=${#lists.isEmpty(dashboardData.lastFivePlayedSongs) ? null : dashboardData.lastFivePlayedSongs.get(0)}">
+            <img alt="Live Now Background" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-700"
+                 th:src="${currentSong != null and currentSong.albumCoverImageUrl != null ? currentSong.albumCoverImageUrl : 'https://lh3.googleusercontent.com/aida-public/AB6AXuD8gu7pP0nPKeHsgJyF7Qx3rDXlxmXyPswcmRKUUq3j-2G_KmkrNdgqro6FinjwARZRYTh89W8RWOb8Y52FQYOxQrTDWpfgoNg64ncELew6FIDy6DxtRwerKI2y4XNiL2uAe0yDAsJzq9Fk1Oc4NfrR4aAqfYR7u3e3F83kxG2DpCQrKhghG_4vUGB1KGtHmDLtPkhZ_iTPGw-VMVU5YQAxSyUz_o253TJvP0WmBybP_3CmkI9fvt0mTLpsypAbkoXoWIQtxF-h_ZY'}"
+                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8gu7pP0nPKeHsgJyF7Qx3rDXlxmXyPswcmRKUUq3j-2G_KmkrNdgqro6FinjwARZRYTh89W8RWOb8Y52FQYOxQrTDWpfgoNg64ncELew6FIDy6DxtRwerKI2y4XNiL2uAe0yDAsJzq9Fk1Oc4NfrR4aAqfYR7u3e3F83kxG2DpCQrKhghG_4vUGB1KGtHmDLtPkhZ_iTPGw-VMVU5YQAxSyUz_o253TJvP0WmBybP_3CmkI9fvt0mTLpsypAbkoXoWIQtxF-h_ZY"/>
             <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
-            <div class="relative z-10 space-y-4"
-                 th:with="currentSong=${#lists.isEmpty(dashboardData.lastFivePlayedSongs) ? null : dashboardData.lastFivePlayedSongs.get(0)}">
+            <div class="relative z-10 space-y-4">
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                     <span class="label-sm font-bold tracking-widest text-primary uppercase font-label">Streaming Live</span>
@@ -21,11 +23,12 @@
                     </div>
                     <div class="flex items-center gap-3">
                         <span class="material-symbols-outlined text-on-surface-variant">schedule</span>
-                        <span class="text-on-surface-variant font-medium">03:42 / 05:10</span>
+                        <span class="text-on-surface-variant font-medium"
+                              th:text="${currentSong != null and currentSong.songLengthMs != null and currentSong.songLengthMs > 0 ? T(java.lang.String).format('%02d:%02d', (currentSong.songLengthMs / 1000) / 60, (currentSong.songLengthMs / 1000) % 60) : '--:--'}">03:42 / 05:10</span>
                     </div>
                 </div>
                 <div class="w-full h-1 bg-surface-container-highest rounded-full mt-4">
-                    <div class="h-full bg-gradient-to-r from-primary to-primary-container rounded-full" style="width: 72%"></div>
+                    <div class="h-full bg-gradient-to-r from-primary to-primary-container rounded-full" style="width: 100%"></div>
                 </div>
             </div>
         </div>
@@ -52,7 +55,8 @@
                     <span class="material-symbols-outlined text-primary text-xl">timer</span>
                 </div>
                 <p class="font-headline text-4xl font-bold mt-2" th:text="${#numbers.formatInteger(dashboardData.totalAlbums, 1, 'COMMA')}">18,402</p>
-                <p class="text-xs text-primary mt-1">99.9% Uptime</p>
+                <p class="text-xs text-primary mt-1"
+                   th:text="${#numbers.formatInteger(dashboardData.totalSongHistory, 1, 'COMMA')} + ' plays tracked'">99.9% Uptime</p>
             </div>
         </div>
     </section>
@@ -70,13 +74,16 @@
                 <div th:each="song : ${dashboardData.lastFivePlayedSongs}" class="flex items-center gap-6 p-4 rounded-xl hover:bg-surface-container-high transition-all group">
                     <span class="text-on-surface-variant font-medium w-8"
                           th:text="${song.playedAt != null ? #temporals.format(song.playedAt.atZone(T(java.time.ZoneOffset).UTC).withZoneSameInstant(T(java.time.ZoneId).of(dashboardTimeZone)).toLocalDateTime(), 'HH:mm') : '--:--'}">12:45</span>
-                    <img alt="Album Cover" class="w-14 h-14 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8gu7pP0nPKeHsgJyF7Qx3rDXlxmXyPswcmRKUUq3j-2G_KmkrNdgqro6FinjwARZRYTh89W8RWOb8Y52FQYOxQrTDWpfgoNg64ncELew6FIDy6DxtRwerKI2y4XNiL2uAe0yDAsJzq9Fk1Oc4NfrR4aAqfYR7u3e3F83kxG2DpCQrKhghG_4vUGB1KGtHmDLtPkhZ_iTPGw-VMVU5YQAxSyUz_o253TJvP0WmBybP_3CmkI9fvt0mTLpsypAbkoXoWIQtxF-h_ZY"/>
+                    <img alt="Album Cover" class="w-14 h-14 rounded-lg object-cover"
+                         th:src="${song.albumCoverImageUrl != null ? song.albumCoverImageUrl : 'https://via.placeholder.com/56?text=No+Cover'}"
+                         src="https://via.placeholder.com/56?text=Loading"/>
                     <div class="flex-1">
                         <h4 class="font-semibold text-on-surface group-hover:text-primary transition-colors" th:text="${song.songNameStreaming}">Midnight City</h4>
                         <p class="text-sm text-on-surface-variant" th:text="${song.artistName + ' - ' + song.albumName}">M83 - Hurry Up, We're Dreaming</p>
                     </div>
                     <div class="flex gap-8 items-center">
-                        <span class="text-xs font-label uppercase tracking-tighter text-on-surface-variant bg-surface-container-highest px-2 py-1 rounded">Electronic</span>
+                        <span class="text-xs font-label uppercase tracking-tighter text-on-surface-variant bg-surface-container-highest px-2 py-1 rounded"
+                              th:text="${song.artistGenre != null ? song.artistGenre : 'Unknown'}">Electronic</span>
                         <span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer">favorite</span>
                         <span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
                     </div>

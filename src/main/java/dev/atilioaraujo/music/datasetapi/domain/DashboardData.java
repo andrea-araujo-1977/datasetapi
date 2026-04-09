@@ -9,6 +9,7 @@ public record DashboardData(
         Integer totalArtists,
         Integer totalAlbums,
         Integer totalSongs,
+        Integer totalSongHistory,
         LocalDateTime oldestPlayedDate,
         List<SongHistoryDto> lastFivePlayedSongs
 ) {

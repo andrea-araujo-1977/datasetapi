@@ -10,6 +10,9 @@ public record SongHistoryDto(
         Integer songId,
         String songNameSource,
         String songNameStreaming,
+        String artistGenre,
+        String albumCoverImageUrl,
+        Integer songLengthMs,
         LocalDateTime playedAt
 ) {
 }
