@@ -26,6 +26,7 @@ public class DashboardService {
         Integer totalArtists = artistDao.getTotalCount();
         Integer totalAlbums = albumDao.getTotalCount();
         Integer totalSongs = songDao.getTotalCount();
+        Integer totalSongHistory = songHistoryDao.getTotalCount();
 
         var oldestPlayedDate = songHistoryDao.getOldestPlayedDate();
         var lastFivePlayedSongs = songHistoryDao.getLastFivePlayedSongs();
@@ -34,6 +35,7 @@ public class DashboardService {
                 totalArtists,
                 totalAlbums,
                 totalSongs,
+                totalSongHistory,
                 oldestPlayedDate,
                 lastFivePlayedSongs
         );

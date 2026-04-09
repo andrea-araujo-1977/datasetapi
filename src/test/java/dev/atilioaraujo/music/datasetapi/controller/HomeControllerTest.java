@@ -40,6 +40,7 @@ class HomeControllerTest {
                 10,
                 5,
                 100,
+                250,
                 LocalDateTime.now(),
                 List.of()
         );

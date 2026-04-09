@@ -73,17 +73,26 @@ public class SongHistoryDao {
         return result != null ? result.toLocalDateTime() : null;
     }
 
+    public Integer getTotalCount() {
+        String sql = "SELECT COUNT(*) as total FROM song_history";
+        Integer count = jdbcTemplate.queryForObject(sql, Map.of(), Integer.class);
+        return count != null ? count : 0;
+    }
+
     public List<SongHistoryDto> getLastFivePlayedSongs() {
         String sql = """
                 SELECT sh.id_song_history,
                        sh.dt_song_played,
                        a.id_artist,
                        a.nm_artist,
+                       a.ds_genre,
                        al.id_album,
                        al.nm_album,
+                       al.ds_cover_image_url,
                        s.id_song,
                        s.nm_song_source,
-                       s.nm_song_streaming
+                       s.nm_song_streaming,
+                       s.id_length_ms
                 FROM song_history sh
                 INNER JOIN song s ON s.id_song = sh.id_song
                 INNER JOIN album al ON al.id_album = s.id_album
@@ -116,6 +125,9 @@ public class SongHistoryDao {
                 rs.getInt("id_song"),
                 rs.getString("nm_song_source"),
                 rs.getString("nm_song_streaming"),
+                rs.getString("ds_genre"),
+                rs.getString("ds_cover_image_url"),
+                (Integer) rs.getObject("id_length_ms"),
                 playedAt != null ? playedAt.toLocalDateTime() : null
         );
     }
