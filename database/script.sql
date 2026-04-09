@@ -5,6 +5,7 @@ CREATE TABLE "artist" (
   "id_artist" int NOT NULL AUTO_INCREMENT,
   "nm_artist" varchar(100) NOT NULL,
   "ds_genre" varchar(255) DEFAULT NULL,
+  "ds_image_url" varchar(500) DEFAULT NULL,
   PRIMARY KEY ("id_artist"),
   KEY "nm_artist_idx" ("nm_artist")
 );

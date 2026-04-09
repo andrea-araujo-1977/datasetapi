@@ -7,6 +7,7 @@ import dev.atilioaraujo.music.datasetapi.dao.SongDao.SongCatalogData;
 import dev.atilioaraujo.music.datasetapi.domain.Album;
 import dev.atilioaraujo.music.datasetapi.domain.Artist;
 import dev.atilioaraujo.music.datasetapi.domain.Song;
+import dev.atilioaraujo.music.datasetapi.dto.LegacyArtistRefreshResponse;
 import dev.atilioaraujo.music.datasetapi.dto.LegacyDataRefreshResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +45,7 @@ class LegacyDataRefreshServiceTest {
     @Test
     void shouldRefreshSongsAndReturnRemainingCount() {
         SongCatalogData catalogData = new SongCatalogData(
-                new Artist(11, "Bush", null),
+                new Artist(11, "Bush", null, null),
                 new Album(12, "Sixteen Stone", null, null, 11),
                 new Song(13, "MACHINE HEAD", null, 3, 0, 12)
         );
@@ -55,6 +56,7 @@ class LegacyDataRefreshServiceTest {
                         "Machine Head",
                         "Bush",
                         "grunge/alternative rock",
+                        "https://example.com/artist.png",
                         "Sixteen Stone",
                         LocalDate.of(1994, 11, 1),
                         "https://example.com/cover.png",
@@ -81,13 +83,13 @@ class LegacyDataRefreshServiceTest {
     @Test
     void shouldContinueProcessingWhenSpotifyTrackIsNotFound() {
         SongCatalogData firstSong = new SongCatalogData(
-                new Artist(11, "Unknown Artist", null),
+                new Artist(11, "Unknown Artist", null, null),
                 new Album(12, "Unknown Album", null, null, 11),
                 new Song(13, "NOT_FOUND_TRACK", null, 1, 0, 12)
         );
 
         SongCatalogData secondSong = new SongCatalogData(
-                new Artist(21, "Bush", null),
+                new Artist(21, "Bush", null, null),
                 new Album(22, "Sixteen Stone", null, null, 21),
                 new Song(23, "MACHINE HEAD", null, 3, 0, 22)
         );
@@ -102,6 +104,7 @@ class LegacyDataRefreshServiceTest {
                         "Machine Head",
                         "Bush",
                         "grunge/alternative rock",
+                        "https://example.com/artist.png",
                         "Sixteen Stone",
                         LocalDate.of(1994, 11, 1),
                         "https://example.com/cover.png",
@@ -117,6 +120,34 @@ class LegacyDataRefreshServiceTest {
         assertEquals(1, response.pendingSongs());
         verify(songDao, times(1)).findSongsWithLengthZero(2);
         verify(songDao, times(1)).update(any(Song.class));
+    }
+
+    @Test
+    void shouldRefreshArtistsAndReturnRemainingCount() {
+        when(artistDao.findArtistsMissingMetadata(2)).thenReturn(List.of(
+                new Artist(11, "Bush", null, null),
+                new Artist(21, "Pearl Jam", "grunge", "https://example.com/existing.png")
+        ));
+
+        when(spotifyCatalogLookupService.findArtist("Bush"))
+                .thenReturn(new SpotifyCatalogLookupService.SpotifyArtistInfo(
+                        "Bush",
+                        "grunge/alternative rock",
+                        "https://example.com/bush.png"
+                ));
+        when(spotifyCatalogLookupService.findArtist("Pearl Jam"))
+                .thenReturn(new SpotifyCatalogLookupService.SpotifyArtistInfo(
+                        "Pearl Jam",
+                        "grunge",
+                        "https://example.com/existing.png"
+                ));
+        when(artistDao.getPendingMetadataCount()).thenReturn(8);
+
+        LegacyArtistRefreshResponse response = service.refreshArtists(2);
+
+        assertEquals(1, response.totalUpdatedArtists());
+        assertEquals(8, response.pendingArtists());
+        verify(artistDao, times(1)).update(any(Artist.class));
     }
 }
 

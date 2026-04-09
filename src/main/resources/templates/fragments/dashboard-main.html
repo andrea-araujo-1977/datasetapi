@@ -47,7 +47,8 @@
                     <span class="material-symbols-outlined text-primary text-xl">library_music</span>
                 </div>
                 <p class="font-headline text-4xl font-bold mt-2" th:text="${#numbers.formatInteger(dashboardData.totalSongs, 1, 'COMMA')}">24,591</p>
-                <p class="text-xs text-primary mt-1">4.2TB total library</p>
+                <p class="text-xs text-primary mt-1"
+                   th:text="${#numbers.formatInteger(dashboardData.totalAlbums, 1, 'COMMA')} + ' total albums'">4.2TB total library</p>
             </div>
             <div class="bg-surface-container rounded-xl p-6 flex flex-col justify-between hover:bg-surface-bright transition-all duration-300">
                 <div class="flex justify-between items-start">
@@ -138,62 +139,6 @@
                         <div class="w-1 bg-primary h-8 rounded-full"></div>
                         <div class="w-1 bg-primary h-5 rounded-full"></div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
-        <div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
-            <div class="flex items-center gap-4 mb-6">
-                <div class="p-3 bg-primary/10 rounded-lg">
-                    <span class="material-symbols-outlined text-primary">trending_up</span>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold">Audience Growth</h3>
-                    <p class="text-xs text-on-surface-variant">+15.4% unique listeners today</p>
-                </div>
-            </div>
-            <div class="h-40 w-full flex items-end gap-2">
-                <div class="flex-1 bg-surface-container-highest rounded-t-lg h-[40%] hover:bg-primary/40 transition-all"></div>
-                <div class="flex-1 bg-surface-container-highest rounded-t-lg h-[55%] hover:bg-primary/40 transition-all"></div>
-                <div class="flex-1 bg-surface-container-highest rounded-t-lg h-[70%] hover:bg-primary/40 transition-all"></div>
-                <div class="flex-1 bg-surface-container-highest rounded-t-lg h-[65%] hover:bg-primary/40 transition-all"></div>
-                <div class="flex-1 bg-surface-container-highest rounded-t-lg h-[85%] hover:bg-primary/40 transition-all"></div>
-                <div class="flex-1 bg-primary/20 rounded-t-lg h-[95%] hover:bg-primary transition-all"></div>
-                <div class="flex-1 bg-primary/40 rounded-t-lg h-[90%] hover:bg-primary transition-all"></div>
-            </div>
-        </div>
-        <div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
-            <div class="flex items-center gap-4 mb-6">
-                <div class="p-3 bg-primary/10 rounded-lg">
-                    <span class="material-symbols-outlined text-primary">bolt</span>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold">Curator Recommendation</h3>
-                    <p class="text-xs text-on-surface-variant">Based on energy trends</p>
-                </div>
-            </div>
-            <div class="space-y-4">
-                <div class="bg-surface-container-highest p-4 rounded-xl flex items-center gap-4">
-                    <img alt="Rec Artist" class="w-12 h-12 rounded object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw1d6eGIwv0O047BnXuWoB4dod1TL719AFlKakX7c7xXB4_Tee0JDTGUXll4mpq1oCI6riFdN8eRmSJcYyblupo_iB1W9lp8PhbeAkzss6YMOTsgHBjEkwg9QJ4G0hLVRYkT2gjHn-0RR-R2woT_a3lu3ILmtVnHUY1sVo8fy0Eiaou6MXP5es4fneegs-cYunAsKmiQe52J-ISUgFqm2EhRyuEs4wsohmSfrCHFesKMAlu_OTulOSWwQQHizfjXaEL7rZBHOweRY"/>
-                    <div>
-                        <p class="text-sm font-bold">Increase Energy at 5PM</p>
-                        <p class="text-xs text-on-surface-variant">Audience spikes correlate with BPM &gt; 120</p>
-                    </div>
-                    <button class="ml-auto text-primary">
-                        <span class="material-symbols-outlined">chevron_right</span>
-                    </button>
-                </div>
-                <div class="bg-surface-container-highest p-4 rounded-xl flex items-center gap-4">
-                    <img alt="Rec Artist" class="w-12 h-12 rounded object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWKSPaD2nAtqrYP8QN8QJC_qVHb-4kEQj9UFF6D_caF73QVt9ZeImnxuvwLc5UyQ1NuysrUP_miV6rOypgWTtacHSfKS08OOHwH41-40uz62y-_dYx5w2eDm6cnIaiNtPOe21Bbr6n9swGLQ-hx7TxA8uw4txC0xOPp-Gk1t7Q98Y_LLzDM-zwfBEqRUvT-c1w7FxdO8rXOfyDLfwkHyDHIGBQOZOVrK1AS3pPHEosWigyEvkWsl42fwPPEushhc7UPIURN3GSmI"/>
-                    <div>
-                        <p class="text-sm font-bold">Top Artist: Disclosure</p>
-                        <p class="text-xs text-on-surface-variant">Recommended for upcoming drive-time slot</p>
-                    </div>
-                    <button class="ml-auto text-primary">
-                        <span class="material-symbols-outlined">chevron_right</span>
-                    </button>
                 </div>
             </div>
         </div>

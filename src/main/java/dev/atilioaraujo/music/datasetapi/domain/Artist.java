@@ -12,7 +12,9 @@ public record Artist(
         @Column("nm_artist")
         String name,
         @Column("ds_genre")
-        String genre
+        String genre,
+        @Column("ds_image_url")
+        String imageUrl
 ) {
 }
 
