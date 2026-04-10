@@ -1,5 +1,6 @@
 package dev.atilioaraujo.music.datasetapi.controller;
 
+import dev.atilioaraujo.music.datasetapi.dto.LegacyArtistRefreshResponse;
 import dev.atilioaraujo.music.datasetapi.dto.LegacyDataRefreshResponse;
 import dev.atilioaraujo.music.datasetapi.service.LegacyDataRefreshService;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +52,30 @@ class LegacyDataControllerTest {
     @Test
     void shouldReturnBadRequestWhenAmountIsMissing() throws Exception {
         mockMvc.perform(put("/api/data/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("amount must be informed"));
+    }
+
+    @Test
+    void shouldRefreshArtistMetadata() throws Exception {
+        when(legacyDataRefreshService.refreshArtists(eq(5)))
+                .thenReturn(new LegacyArtistRefreshResponse(5, 11));
+
+        mockMvc.perform(put("/artist/refreah")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"amount": 5}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalUpdatedArtists").value(5))
+                .andExpect(jsonPath("$.pendingArtists").value(11));
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenArtistRefreshAmountIsMissing() throws Exception {
+        mockMvc.perform(put("/artist/refreah")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(status().isBadRequest())

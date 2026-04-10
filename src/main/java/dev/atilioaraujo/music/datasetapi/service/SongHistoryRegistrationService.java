@@ -52,7 +52,11 @@ public class SongHistoryRegistrationService {
         SpotifyCatalogLookupService.SpotifyTrackInfo spotifyTrackInfo =
                 spotifyCatalogLookupService.findTrack(request.artista(), request.musica());
 
-        Artist artist = resolveArtist(spotifyTrackInfo.artistName(), spotifyTrackInfo.artistGenre());
+        Artist artist = resolveArtist(
+                spotifyTrackInfo.artistName(),
+                spotifyTrackInfo.artistGenre(),
+                spotifyTrackInfo.artistImageUrl()
+        );
         Album album = resolveAlbum(
                 spotifyTrackInfo.albumName(),
                 spotifyTrackInfo.albumReleaseDate(),
@@ -82,11 +86,11 @@ public class SongHistoryRegistrationService {
         }
     }
 
-    private Artist resolveArtist(String artistName, String artistGenre) {
+    private Artist resolveArtist(String artistName, String artistGenre, String artistImageUrl) {
         return artistDao.findByNameIgnoreCase(artistName)
                 .stream()
                 .findFirst()
-                .orElseGet(() -> artistDao.insert(new Artist(null, artistName, artistGenre)));
+                .orElseGet(() -> artistDao.insert(new Artist(null, artistName, artistGenre, artistImageUrl)));
     }
 
     private Album resolveAlbum(String albumName, LocalDate releaseDate, String coverImageUrl, Integer artistId) {

@@ -80,6 +80,7 @@ class SongHistoryRegistrationServiceTest {
                         "Machinehead",
                         "Bush",
                         "grunge/alternative rock",
+                        "https://example.com/artist.png",
                         "Sixteen Stone",
                         null,
                         "https://example.com/cover.png",
@@ -88,7 +89,7 @@ class SongHistoryRegistrationServiceTest {
                 ));
 
         when(artistDao.findByNameIgnoreCase("Bush")).thenReturn(List.of());
-        when(artistDao.insert(any(Artist.class))).thenReturn(new Artist(11, "Bush", "grunge/alternative rock"));
+        when(artistDao.insert(any(Artist.class))).thenReturn(new Artist(11, "Bush", "grunge/alternative rock", "https://example.com/artist.png"));
 
         when(albumDao.findByNameIgnoreCase("Sixteen Stone")).thenReturn(List.of());
         when(albumDao.insert(any(Album.class))).thenReturn(new Album(12, "Sixteen Stone", null, "https://example.com/cover.png", 11));

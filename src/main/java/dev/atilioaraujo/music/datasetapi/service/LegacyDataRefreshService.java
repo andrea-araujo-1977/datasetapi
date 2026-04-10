@@ -7,6 +7,7 @@ import dev.atilioaraujo.music.datasetapi.dao.SongDao.SongCatalogData;
 import dev.atilioaraujo.music.datasetapi.domain.Album;
 import dev.atilioaraujo.music.datasetapi.domain.Artist;
 import dev.atilioaraujo.music.datasetapi.domain.Song;
+import dev.atilioaraujo.music.datasetapi.dto.LegacyArtistRefreshResponse;
 import dev.atilioaraujo.music.datasetapi.dto.LegacyDataRefreshResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,23 +65,52 @@ public class LegacyDataRefreshService {
         return new LegacyDataRefreshResponse(updatedSongs, pendingSongs);
     }
 
+    public LegacyArtistRefreshResponse refreshArtists(Integer amount) {
+        Assert.notNull(amount, "amount must be informed");
+        if (amount <= 0) {
+            throw new IllegalArgumentException("amount must be greater than zero");
+        }
+
+        List<Artist> artists = artistDao.findArtistsMissingMetadata(amount);
+        int updatedArtists = 0;
+        for (Artist artist : artists) {
+            try {
+                var spotifyArtistInfo = spotifyCatalogLookupService.findArtist(artist.name());
+                if (updateArtist(artist, spotifyArtistInfo.artistGenre(), spotifyArtistInfo.artistImageUrl())) {
+                    updatedArtists++;
+                }
+            } catch (Exception ex) {
+                LOGGER.warn(
+                        "Could not refresh artist metadata for artist='{}'. Processing will continue.",
+                        artist.name(),
+                        ex
+                );
+            }
+        }
+
+        Integer pendingArtists = artistDao.getPendingMetadataCount();
+        return new LegacyArtistRefreshResponse(updatedArtists, pendingArtists);
+    }
+
     private void refreshCatalogItem(SongCatalogData catalogItem) {
         var spotifyTrackInfo = spotifyCatalogLookupService.findTrack(
                 catalogItem.artist().name(),
                 catalogItem.song().nameSource()
         );
 
-        updateArtist(catalogItem.artist(), spotifyTrackInfo.artistGenre());
+        updateArtist(catalogItem.artist(), spotifyTrackInfo.artistGenre(), spotifyTrackInfo.artistImageUrl());
         updateAlbum(catalogItem.album(), spotifyTrackInfo.albumReleaseDate(), spotifyTrackInfo.albumCoverImageUrl());
         updateSong(catalogItem.song(), spotifyTrackInfo.songName(), spotifyTrackInfo.lengthMs());
     }
 
-    private void updateArtist(Artist currentArtist, String genre) {
-        if (Objects.equals(currentArtist.genre(), genre)) {
-            return;
+    private boolean updateArtist(Artist currentArtist, String genre, String imageUrl) {
+        if (Objects.equals(currentArtist.genre(), genre)
+                && Objects.equals(currentArtist.imageUrl(), imageUrl)) {
+            return false;
         }
 
-        artistDao.update(new Artist(currentArtist.idArtist(), currentArtist.name(), genre));
+        artistDao.update(new Artist(currentArtist.idArtist(), currentArtist.name(), genre, imageUrl));
+        return true;
     }
 
     private void updateAlbum(Album currentAlbum, java.time.LocalDate releaseDate, String coverImageUrl) {

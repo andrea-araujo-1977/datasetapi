@@ -50,6 +50,7 @@ public class SongDao {
                 SELECT a.id_artist,
                        a.nm_artist,
                        a.ds_genre,
+                       a.ds_image_url,
                        al.id_album,
                        al.nm_album,
                        al.dt_release,
@@ -146,7 +147,8 @@ public class SongDao {
         Artist artist = new Artist(
                 rs.getInt("id_artist"),
                 rs.getString("nm_artist"),
-                rs.getString("ds_genre")
+                rs.getString("ds_genre"),
+                rs.getString("ds_image_url")
         );
 
         Album album = new Album(

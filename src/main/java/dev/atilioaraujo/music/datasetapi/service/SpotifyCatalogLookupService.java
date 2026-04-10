@@ -49,7 +49,7 @@ public class SpotifyCatalogLookupService {
             Integer lengthMs = selectedTrack.getDurationMs();
             LocalDate albumReleaseDate = resolveReleaseDate(selectedTrack);
             String albumCoverImageUrl = resolveAlbumCoverImageUrl(selectedTrack);
-            String genre = resolveArtistGenre(selectedTrack.getArtists(), artistName);
+            ArtistMetadata artistMetadata = resolveArtistMetadata(selectedTrack.getArtists(), artistName);
 
             if (!StringUtils.hasText(resolvedArtist) || !StringUtils.hasText(albumName) || !StringUtils.hasText(selectedTrack.getName())) {
                 throw new IllegalStateException("Spotify returned incomplete track metadata");
@@ -58,7 +58,8 @@ public class SpotifyCatalogLookupService {
             return new SpotifyTrackInfo(
                     selectedTrack.getName(),
                     resolvedArtist,
-                    genre,
+                    artistMetadata.genre(),
+                    artistMetadata.imageUrl(),
                     albumName,
                     albumReleaseDate,
                     albumCoverImageUrl,
@@ -70,30 +71,81 @@ public class SpotifyCatalogLookupService {
         }
     }
 
+    public SpotifyArtistInfo findArtist(String artistName) {
+        validateInput(artistName, "artist");
+        spotifyAuthenticationService.authenticateClientCredentials();
+
+        String query = "artist:" + artistName;
+
+        try {
+            var paging = spotifyApi.searchArtists(query).limit(10).build().execute();
+            var artists = paging.getItems();
+
+            if (artists == null || artists.length == 0) {
+                throw new IllegalStateException("Artist not found on Spotify for artist='" + artistName + "'");
+            }
+
+            Artist selectedArtist = Arrays.stream(artists)
+                    .filter(artist -> artist != null && artist.getName() != null && artist.getName().equalsIgnoreCase(artistName))
+                    .findFirst()
+                    .orElse(artists[0]);
+
+            String resolvedName = selectedArtist != null ? selectedArtist.getName() : artistName;
+            String genre = selectedArtist != null ? resolveGenre(selectedArtist) : null;
+            String imageUrl = selectedArtist != null ? resolveArtistImageUrl(selectedArtist) : null;
+
+            return new SpotifyArtistInfo(resolvedName, genre, imageUrl);
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to query Spotify artist metadata", ex);
+        }
+    }
+
     private static void validateInput(String artistName, String songName) {
         if (!StringUtils.hasText(artistName) || !StringUtils.hasText(songName)) {
             throw new IllegalArgumentException("artistName and songName must be informed");
         }
     }
 
-    private String resolveArtistGenre(ArtistSimplified[] artists, String targetArtistName) {
+    private ArtistMetadata resolveArtistMetadata(ArtistSimplified[] artists, String targetArtistName) {
         String artistId = resolveArtistId(artists, targetArtistName);
         if (!StringUtils.hasText(artistId)) {
-            return null;
+            return new ArtistMetadata(null, null);
         }
 
         try {
             Artist fullArtist = spotifyApi.getArtist(artistId).build().execute();
-            if (fullArtist == null || fullArtist.getGenres() == null || fullArtist.getGenres().length == 0) {
-                return null;
+            if (fullArtist == null) {
+                return new ArtistMetadata(null, null);
             }
 
-            return Arrays.stream(fullArtist.getGenres())
-                    .filter(StringUtils::hasText)
-                    .collect(Collectors.joining("/"));
+            String genre = resolveGenre(fullArtist);
+            String imageUrl = resolveArtistImageUrl(fullArtist);
+            return new ArtistMetadata(genre, imageUrl);
         } catch (Exception ex) {
             throw new IllegalStateException("Failed to query Spotify artist metadata", ex);
         }
+    }
+
+    private static String resolveGenre(Artist fullArtist) {
+        if (fullArtist.getGenres() == null || fullArtist.getGenres().length == 0) {
+            return null;
+        }
+
+        return Arrays.stream(fullArtist.getGenres())
+                .filter(StringUtils::hasText)
+                .collect(Collectors.joining("/"));
+    }
+
+    private static String resolveArtistImageUrl(Artist fullArtist) {
+        if (fullArtist.getImages() == null || fullArtist.getImages().length == 0) {
+            return null;
+        }
+
+        return Arrays.stream(fullArtist.getImages())
+                .filter(image -> image != null && StringUtils.hasText(image.getUrl()))
+                .map(image -> image.getUrl())
+                .findFirst()
+                .orElse(null);
     }
 
     private static boolean hasArtist(ArtistSimplified[] artists, String targetArtistName) {
@@ -174,12 +226,23 @@ public class SpotifyCatalogLookupService {
             String songName,
             String artistName,
             String artistGenre,
+            String artistImageUrl,
             String albumName,
             LocalDate albumReleaseDate,
             String albumCoverImageUrl,
             Integer trackNumber,
             Integer lengthMs
     ) {
+    }
+
+    public record SpotifyArtistInfo(
+            String artistName,
+            String artistGenre,
+            String artistImageUrl
+    ) {
+    }
+
+    private record ArtistMetadata(String genre, String imageUrl) {
     }
 }
 
